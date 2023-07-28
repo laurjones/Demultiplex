@@ -1,0 +1,38 @@
+1. Our goal is to demultiplex the sequence. We will have to uncover whether the indexes are dual matched, hopped, or unknown. 
+
+2. There will be 52 total output files. 48 of these will be dual matched, 24 of which being FW(R1) and the other 24 being RV(R4). 2 files
+will be unknown, 1 for FW(R1) and 1 for RV(R4). The last 2 files will be index hopped, 1 for FW(R1) and 1 for RV(R4).
+
+4. Pseudo Code:
+
+Argparse
+
+def reverse_compliment_function(seq:str) -> str:
+    '''A function that reverse compliments barcodes.'''
+    Make this function into a dictionary (compliment_dictionary)
+        The key is one letter of genetic code
+        The value is its corresponding base pair
+        i.e. {A:T, T:A, G:C, }
+    return(reverse_compliment)
+
+Example...
+Input: TAG
+    Intermediate: GAT
+Return: CTA
+
+I will the open all four files and read them, in a while true loop i will do these four things, ordering from least computationally intesnse to most computationally
+    with open (all 4 files, "r") as f1,f2,f3,f4:
+        while true
+            extract sequence line & header (f1,f4)
+            header=line
+            sequence=line
+            do same on file 3, but call our reverse compliment function on the sequence line of these 
+                if N is present in sequence line or not in list of index: send to unknown
+                elif:
+                    add the index-index to both fw and rv if fw_barcode=rv_barcode: send to dual matched 
+                elif: 
+                    fw!=rv AND index in list: send to index hopped 
+
+
+
+
