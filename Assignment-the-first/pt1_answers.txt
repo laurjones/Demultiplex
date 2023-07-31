@@ -6,4 +6,7 @@
 | 1294_S1_L008_R3_001.fastq.gz | Index 2 | 8 | Phred+33 |
 | 1294_S1_L008_R4_001.fastq.gz | Biological Read 2 | 101 | Phred+33 |
 
-2. R1
+2. R1: https://github.com/laurjones/Demultiplex/blob/master/Assignment-the-first/biologicalread_1.png
+R2: https://github.com/laurjones/Demultiplex/blob/master/Assignment-the-first/index_1.png
+R3: https://github.com/laurjones/Demultiplex/blob/master/Assignment-the-first/index_2.png
+R4: https://github.com/laurjones/Demultiplex/blob/master/Assignment-the-first/biologicalread_2.png
