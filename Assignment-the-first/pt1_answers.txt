@@ -10,3 +10,10 @@
 R2: https://github.com/laurjones/Demultiplex/blob/master/Assignment-the-first/index_1.png
 R3: https://github.com/laurjones/Demultiplex/blob/master/Assignment-the-first/index_2.png
 R4: https://github.com/laurjones/Demultiplex/blob/master/Assignment-the-first/biologicalread_2.png
+
+a) A quality score of Q30 would indicate that all reads a corresponding call accuracy of 99.99% (This is why Q30 is considered a benchmark for quality in next-generation sequencing). 
+When looking at the data, all of our mean Q scores are above 30 meaning the data is highly accurate. I would use a quality score of 20 to ensure that these high quality reads are not 
+negated (keeping in mind that my graph only portrays the mean quality score). Furthermore using Q20 still has a high corresponding call accuraacy of 99%. 
+
+b) Index 1- 3976613
+Index 2- 3328051

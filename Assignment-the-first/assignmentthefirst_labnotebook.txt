@@ -1,0 +1,14 @@
+20232707
+
+Data Exploration:
+
+Length of Reads-
+```zcat 1294_S1_L008_R1_001.fastq.gz | head -n2 | tail -n1 | wc -L``` Output: 101
+```zcat 1294_S1_L008_R2_001.fastq.gz | head -n2 | tail -n1 | wc -L``` Output: 8
+```zcat 1294_S1_L008_R3_001.fastq.gz | head -n2 | tail -n1 | wc -L``` Output: 8
+```zcat 1294_S1_L008_R4_001.fastq.gz | head -n2 | tail -n1 | wc -L``` Output: 101
+
+How many indexes have undetermined (N) base calls?-
+```zcat 1294_S1_L008_R2_001.fastq.gz | sed -n '2~4p' | grep "N" | wc -l``` Output: 3976613
+```zcat 1294_S1_L008_R3_001.fastq.gz | sed -n '2~4p' | grep "N" | wc -l``` Output: 3328051
+
