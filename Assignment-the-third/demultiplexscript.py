@@ -38,11 +38,13 @@ def readfour(fh):
 
 #dictionaries used
 instances_dict={"matched":0, "hopped":0, "unknown":0}
-possibleindexpairs_dict={}
+matchedindexpairs_dict={}
+hoppedindexpairs_dict={}
 indexes_dict={}
 
 #populating index dictionary with indexes(key) and filehandles(value)
 with open (i , "r") as fh:
+    fh.readline()
     for line in fh:
         indexes=line.strip().split('\t')[4]
         indexes_dict[indexes]=[open(indexes+"R1.fq", "w"),open(indexes+"R2.fq", "w")]
@@ -53,6 +55,8 @@ unknownR4=open("unknown_R2.fq", "w")
 hoppedR1=open("hopped_R1.fq", "w")
 hoppedR4=open("hopped_R2.fq", "w")
 
+total=0 
+
 with gzip.open (f1,"rt") as fh1, gzip.open (f2,"rt") as fh2, gzip.open (f3,"rt") as fh3, gzip.open (f4,"rt") as fh4:
     while True:
         record_r1 = readfour(fh1)
@@ -62,6 +66,7 @@ with gzip.open (f1,"rt") as fh1, gzip.open (f2,"rt") as fh2, gzip.open (f3,"rt")
         record_r2 = readfour(fh2)
         record_r3 = readfour(fh3)
         record_r4 = readfour(fh4)
+        total+=1
         new_header = record_r1[0]+" "+record_r2[1]+"-"+reverse_compliment_function(record_r3[1])
         #print(record_r2)
  
@@ -82,27 +87,35 @@ with gzip.open (f1,"rt") as fh1, gzip.open (f2,"rt") as fh2, gzip.open (f3,"rt")
             instances_dict["matched"]+=1 #increments each time there is a matched index 
             indexes_dict[index1][0].write(record_r1[0]+'\n'+record_r1[1]+'\n'+record_r1[2]+'\n'+record_r1[3]+'\n') 
             indexes_dict[index1][1].write(record_r4[0]+'\n'+record_r4[1]+'\n'+record_r4[2]+'\n'+record_r4[3]+'\n')
-            if new_key in possibleindexpairs_dict: #increments each time a new index occurs
-                possibleindexpairs_dict[new_key]+=1
+            if new_key in matchedindexpairs_dict: #increments each time a new index occurs
+                matchedindexpairs_dict[new_key]+=1
             else:
-                possibleindexpairs_dict[new_key]=1
+                matchedindexpairs_dict[new_key]=1
+            
         elif index1 in indexes_dict and index3 in indexes_dict and index1!=index3: #puts all hopped indexes into appropriate file
             instances_dict["hopped"]+=1 #increments each time there is a hopped index
             hoppedR1.write(record_r1[0]+'\n'+record_r1[1]+'\n'+record_r1[2]+'\n'+record_r1[3]+'\n')
             hoppedR4.write(record_r4[0]+'\n'+record_r4[1]+'\n'+record_r4[2]+'\n'+record_r4[3]+'\n')
-            if new_key in possibleindexpairs_dict: #increments each time a new index occurs
-                possibleindexpairs_dict[new_key]+=1
+            if new_key in hoppedindexpairs_dict: #increments each time a new index occurs
+                hoppedindexpairs_dict[new_key]+=1
             else:
-                possibleindexpairs_dict[new_key]=1
+                hoppedindexpairs_dict[new_key]=1
         else:
             print("WARNING! Unexpected result!", record_r1) #fun Leslie trick to see if something funky is happening in output
 
-print("index combination\tnumber of occurences") #formatting the output for both dictionaries as a string with a header where needed
-for key in possibleindexpairs_dict:
-    print(key,possibleindexpairs_dict[key], sep='\t')
+print("matched combination\tnumber of occurences\tpercentage of reads from each sample") #formatting the output for both dictionaries as a string with a header where needed
+for key in matchedindexpairs_dict:
+    # print(key,matchedindexpairs_dict[key],matchedindexpairs_dict[key]/total*100,sep='\t') #percentage of reads from each sample
+    print(f"{key}\t{matchedindexpairs_dict[key]}\t{round(matchedindexpairs_dict[key]/total*100,2)}%") #percentage of reads from each sample
 print()
+print("hopped combination\tnumber of occurences\tpercentage of reads from each sample")
+for key in hoppedindexpairs_dict:
+    #print(key,hoppedindexpairs_dict[key],hoppedindexpairs_dict[key]/total*100,sep='\t') #percentage of reads from each sample
+    print(f"{key}\t{hoppedindexpairs_dict[key]}\t{round(hoppedindexpairs_dict[key]/total*100,2)}%") #percentage of reads from each sample
+print()
+print("category\tcount\tpercentage of each category")
 for key in instances_dict:
-    print(key,instances_dict[key], sep='\t')
+    print(f"{key}\t{instances_dict[key]}\t{round(instances_dict[key]/total*100,2)}%")
 
 
 unknownR1.close() #closing all unknown and hopped files
