@@ -1,0 +1,16 @@
+1. Percentage of reads from each sample
+
+
+2. Overall amount of index swapping.
+
+707740(hopped indexes)/363246732(total indexes)=.001948
+.001948*100%=.19%
+
+3. Any figures/any other relevant data your code output:
+
+# of indexes in each category:
+matched	331755033
+hopped	707740
+unknown	30783962
+(total  363246732)
+09
